@@ -4,14 +4,16 @@
     <!-- props, 自定义事件 -->
     <Child1 msg="some msg from parent" @some-event="onSomeEvent"></Child1>
     <!-- 事件总线 -->
-    <Child2 ref="child2"></Child2>
+    <Child2 ref="child2" msg="some message!!!"></Child2>
+
+    <Parent msg="message from grandpa" data="data" @foo="onFoo"></Parent>
   </div>
 </template>
 
 <script>
 import Child1 from '@/components/communication/Child1.vue'
 import Child2 from '@/components/communication/Child2.vue'
-
+import Parent from '@/components/communication/Parent.vue';
 export default {
   provide () {
     return {
@@ -19,7 +21,7 @@ export default {
     }
   },
   components: {
-    Child1, Child2
+    Child1, Child2, Parent
   },
   methods: {
     onSomeEvent (msg) {
