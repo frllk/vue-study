@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import VueRouter from './kvue-router'
 import Home from '../views/Home.vue'
 
 // 1、为什么用use方法？他做了什么？

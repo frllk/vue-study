@@ -4,6 +4,9 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
+    <!-- 路由出口 -->
+    <!-- router-view 工作原理是什么???  url变化为什么内容能跟着变??? -->
+    <!-- hashx, 假如在url中监听了hash的变化, 怎么就变成了相对应组件的内容呢??? -->
     <router-view/>
   </div>
 </template>
@@ -27,6 +30,6 @@
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #060807;
 }
 </style>
