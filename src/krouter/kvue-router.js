@@ -15,6 +15,12 @@ class KVueRouter {
     const initial = window.location.hash.slice(1) || '/'
     KVue.util.defineReactive(this, 'current', initial)
 
+    // 提前处理路由表避免每次都循环
+    this.routeMap = {}
+    this.$options.routes.forEach(route => {
+      this.routeMap[route.path] = route
+    })
+    // console.log(this.routeMap)
     // 监听事件 .bind(this)或者使用箭头函数
     window.addEventListener('hashchange', this.onHashChange.bind(this))
     window.addEventListener('load', this.onHashChange.bind(this))
@@ -80,10 +86,15 @@ KVueRouter.install = function (Vue) {
   Vue.component('router-view', {
     render (h) {
       // 1.获取路由器实例 ===> 问题: ===> 切换路由，下面内容不变
-      const routes = this.$router.$options.routes
-      const current = this.$router.current
-      const route = routes.find(route => route.path === current)
-      const comp = route ? route.component : null
+      // const routes = this.$router.$options.routes
+      // const current = this.$router.current
+      // const route = routes.find(route => route.path === current)
+      // const comp = route ? route.component : null
+
+      // 优化：提前处理路由表
+      const { routeMap, current } = this.$router
+      const comp = routeMap[current] ? routeMap[current].component : null
+
       // 获取路由表  routes（krouter/index.js）根据path把component拿出来
       // path: '/', 拿到component，直接把组件传入
       return h(comp)
