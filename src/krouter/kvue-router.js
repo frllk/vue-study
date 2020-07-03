@@ -16,6 +16,8 @@ class KVueRouter {
     KVue.util.defineReactive(this, 'current', initial)
 
     // 提前处理路由表避免每次都循环
+    // 缓存路由映射关系： 缓存path和route映射关系
+    // 思考：
     this.routeMap = {}
     this.$options.routes.forEach(route => {
       this.routeMap[route.path] = route
