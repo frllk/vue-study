@@ -1,6 +1,12 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+
+    <!-- vuex相关测试代码 -->
+    <p @click="$store.commit('add')">counter: {{$store.state.counter}}</p>
+    <p @click="$store.dispatch('add')">async counter: {{$store.state.counter}}</p>
+    <p>double：{{$store.getters.doubleCounter}}</p>
+
     <!-- 组件通信 -->
     <!-- <Communication></Communication> -->
     <!-- 表单 -->
@@ -29,6 +35,10 @@ export default {
     FormExample
     // SlotExample,
     // TreeExample
+  },
+  mounted () {
+    // 思考：外面修改值时，怎么办呢？
+    // this.$store.state = {}
   }
 }
 </script>

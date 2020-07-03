@@ -1,5 +1,5 @@
 let KVue;
-console.log(KVue)
+// console.log(KVue)
 /**
  * 插件
  * 1、要实现一个install方法
