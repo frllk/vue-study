@@ -75,7 +75,8 @@ class KVue {
     // 保存选项
     this.$options = options
     this.$data = options.data
-
+    this.$methods = options.methods
+    console.log('创建KVue实例', this)
     // 响应化处理
     observe(this.$data)
 
@@ -140,12 +141,26 @@ class Compile {
       // k-xxx="aaa"
       const attrName = attr.name // k-xxx
       const exp = attr.value // aaa
-      if (this.idDirective(attrName)) {
+      // if (this.idDirective(attrName)) {
+      //   const dir = attrName.substring(2)
+      //   // 执行指令
+      //   this[dir] && this[dir](node, exp)
+      // } else if (this.isEvent(attrName)) {
+      //   // exp: onclick  click vm.options.
+      //   console.log('isEvent', attrName.slice(1), exp)
+      //   // this.$vm.$methods[exp]()
+      //   this.hEvent(node, attrName.slice(1), this.$vm.$methods[exp].bind(this.$vm))
+      // }
+      if (this.isEvent(attrName)) {
+        console.log(`event================${attrName}`)
+        // exp: onclick  click vm.options.
+        const eventName = attrName.startsWith('k-on:') ? attrName.slice(5) : attrName.slice(1)
+        // this.$vm.$methods[exp]()
+        this.hEvent(node, eventName, this.$vm.$methods[exp].bind(this.$vm))
+      } else if (this.idDirective(attrName)) {
         const dir = attrName.substring(2)
         // 执行指令
         this[dir] && this[dir](node, exp)
-      } else if (this.isEvent(attrName)) {
-        // exp: onclick  click vm.options.
       }
     })
   }
@@ -159,6 +174,21 @@ class Compile {
     node.innerHTML = this.$vm[exp]
     this.update(node, exp, 'html')
   }
+  model(node, exp) {
+    console.log('model=====', node, exp, node.value, this)
+    node.value = this.$vm[exp]
+  }
+  // 事件处理
+  hEvent(node, type, fn) {
+    if (type == 'input') {
+      const attr = Array.from(node.attributes).filter(attr => attr.name.startsWith('k-model'))
+      const exp = attr[0].value
+      console.log('inputinput===', attr, exp)
+    }
+    console.log('hEvent', type, node)
+    node.addEventListener(type, fn)
+  }
+
 
   // 所有动态绑定都需要创建更新函数以及对应的watcher实例
   update(node, exp, dir) {

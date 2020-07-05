@@ -13,13 +13,15 @@
     <p @click="onclick">{{counter}}</p>
     <p k-text="counter"></p>
     <p k-html="desc"></p>
-    <input type="text" k-model="msg">
+    <input @focus="hFocus" @change="hChange" k-on:input="hInput" type="text" k-model="msg">
+    <p k-html="msg"></p>
   </div>
   <!-- <script src="node_modules/vue/dist/vue.js"></script> -->
-  <!-- <script src="kvue.js"></script> -->
-  <script src="fvue.js"></script>
+  <script src="kvue.js"></script>
+  <!-- <script src="fvue.js"></script> -->
   <script>
-    const app = new FVue({
+    const app = new KVue({
+      // const app = new FVue({
       el: '#app',
       data: {
         counter: 1,
@@ -30,12 +32,23 @@
         onclick() {
           // this必须是组件实例
           this.counter++
+          console.log('onclick事件中this', this)
+        },
+        hInput(e) {
+          this.msg = e.target.value
+          console.log(this, e.target.value)
+        },
+        hFocus() {
+          console.log('focus')
+        },
+        hChange(e) {
+          console.log('hChange', e.target.value)
         }
       },
     })
-    setInterval(() => {
-      app.counter++
-    }, 3000);
+    // setInterval(() => {
+    //   app.counter++
+    // }, 3000);
 
   </script>
 </body>
