@@ -51,4 +51,5 @@ observe(obj)
 // obj.baz.a = 100 // 设置拦截不到 ===>  16行  observe(newVal)
 // obj.dong = 'dong' // 属性动态添加进来时，没有经过初始化  ===> set一下
 set(obj, 'dong', 'dong')
+console.log(obj)
 obj.dong

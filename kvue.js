@@ -1,3 +1,24 @@
+/**
+ * KVue：框架构造函数
+ *    - 执⾏初始化，对data执⾏响应化处理，kvue.js
+ *    - 为$data做代理
+ * Observer：执⾏数据响应化（分辨数据是对象还是数组）
+ * Compile：编译模板，初始化视图，收集依赖（更新函数、watcher创建）
+ *    - 初始化视图
+ *      - 根据节点类型编译，compile.js
+ *      - 编译插值，compile.js
+ *      - 编译元素
+ *    - 依赖收集
+ *      - 视图中会⽤到data中某key，这称为依赖。同⼀个key可能出现多次，每次都需要收集出来⽤⼀个Watcher来维护它们，此过程称为依赖收集。多个Watcher需要⼀个Dep来管理，需要更新时由Dep统⼀通知。
+ *      - 实现思路：
+ *        - 1. defineReactive时为每⼀个key创建⼀个Dep实例
+ *        - 2. 初始化视图时读取某个key，例如name1，创建⼀个watcher1
+ *        - 3. 由于触发name1的getter⽅法，便将watcher1添加到name1对应的Dep中
+ *        - 4. 当name1更新，setter触发时，便可通过对应Dep通知其管理所有Watcher更新
+ * Watcher：执⾏更新函数（更新dom）
+ * Dep：管理多个Watcher，批量更新
+ */
+
 function defineReactive(obj, key, val) {
   // val可能是对象，需要递归处理
   observe(val)
@@ -123,6 +144,8 @@ class Compile {
         const dir = attrName.substring(2)
         // 执行指令
         this[dir] && this[dir](node, exp)
+      } else if (this.isEvent(attrName)) {
+        // exp: onclick  click vm.options.
       }
     })
   }
@@ -166,6 +189,10 @@ class Compile {
   // 判断是否为指令
   idDirective(attrName) {
     return attrName.indexOf('k-') === 0
+  }
+  // 判断是否为事件
+  isEvent(attrName) {
+    return attrName.startsWith('k-on:') || attrName.startsWith('@')
   }
 }
 
