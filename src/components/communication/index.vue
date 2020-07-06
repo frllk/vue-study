@@ -15,7 +15,7 @@ import Child1 from '@/components/communication/Child1.vue'
 import Child2 from '@/components/communication/Child2.vue'
 import Parent from '@/components/communication/Parent.vue'
 export default {
-  provide() {
+  provide () {
     return {
       bar:
         'bar~~~ （provide/inject：跨级传参，隔代传值，能够实现祖先和后代之间传值）'
@@ -27,14 +27,14 @@ export default {
     Parent
   },
   methods: {
-    onSomeEvent(msg) {
+    onSomeEvent (msg) {
       console.log('Communition-index:', msg)
     },
-    onFoo() {
+    onFoo () {
       console.log('Communition-index === msg from Child2')
     }
   },
-  mounted() {
+  mounted () {
     // 在父组件中调用子组件child2里面的方法
     console.log(this, this.$children)
     // $children不能保证元素顺序

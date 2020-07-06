@@ -15,7 +15,7 @@ export default {
       default: ''
     }
   },
-  mounted() {
+  mounted () {
     // this.$bus.$on('event-from-child2', msg => {
     //   console.log('Child1:', msg);
     // });

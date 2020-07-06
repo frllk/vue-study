@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       remark: [
         '好好学习，天天向上',
@@ -28,7 +28,7 @@ export default {
     }
   },
   computed: {
-    footerContent() {
+    footerContent () {
       return (
         this.remark[new Date().getDay() - 1] +
         ' === 作用域插槽：父组件要显示的数据来自于子组件的作用域'

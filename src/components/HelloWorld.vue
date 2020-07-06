@@ -36,7 +36,7 @@ export default {
     SlotExample
     // TreeExample
   },
-  mounted() {
+  mounted () {
     // 思考：外面修改值时，怎么办呢？
     // this.$store.state = {}
   }
