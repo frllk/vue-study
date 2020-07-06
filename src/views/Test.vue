@@ -1,11 +1,19 @@
 <template>
   <div>
-    test
+    <FormExample></FormExample>
   </div>
 </template>
 
 <script>
-export default {}
+import FormExample from '@/components/form/index-test.vue'
+export default {
+  components: {
+    FormExample
+  },
+  methods: {
+    name () { }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
