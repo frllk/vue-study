@@ -1,7 +1,8 @@
 <template>
-  <div @click="$emit('some-event', 'msg from child1')">
-    <h3>child1</h3>
+  <div class="child1" @click="$emit('some-event', 'msg from child1')">
+    <h3>child1 = grandson</h3>
     <p>{{msg}}</p>
+    <p>子父传值$emit/props，点我有惊喜~~</p>
   </div>
 </template>
 
@@ -14,7 +15,7 @@ export default {
       default: ''
     }
   },
-  mounted () {
+  mounted() {
     // this.$bus.$on('event-from-child2', msg => {
     //   console.log('Child1:', msg);
     // });
@@ -23,12 +24,14 @@ export default {
     // 在今天的例子中：
     // 可以使用Child1和Child2共同的中间人来做一个桥梁，照样可以进行通信
     this.$parent.$on('event-from-child2', msg => {
-      console.log('Child1:', msg);
-    });
+      console.log('Child1:', msg)
+    })
   }
 }
 </script>
 
 <style scoped>
-
+.child1 {
+  background-color: pink;
+}
 </style>

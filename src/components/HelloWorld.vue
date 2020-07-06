@@ -8,11 +8,11 @@
     <p>double：{{$store.getters.doubleCounter}}</p>
 
     <!-- 组件通信 -->
-    <!-- <Communication></Communication> -->
+    <Communication></Communication>
     <!-- 表单 -->
-    <FormExample></FormExample>
+    <!-- <FormExample></FormExample> -->
     <!-- 插槽 -->
-    <!-- <SlotExample></SlotExample> -->
+    <SlotExample></SlotExample>
     <!-- 递归 -->
     <!-- <TreeExample></TreeExample> -->
 
@@ -20,10 +20,10 @@
 </template>
 
 <script>
-// import Communication from '@/components/communication';
-import FormExample from '@/components/form';
-// import SlotExample from '@/components/slots';
-// import TreeExample from '@/components/recursion';
+import Communication from '@/components/communication'
+// import FormExample from '@/components/form'
+import SlotExample from '@/components/slots'
+// import TreeExample from '@/components/recursion'
 
 export default {
   name: 'HelloWorld',
@@ -31,12 +31,12 @@ export default {
     msg: String
   },
   components: {
-    // Communication
-    FormExample
-    // SlotExample,
+    Communication,
+    // FormExample,
+    SlotExample
     // TreeExample
   },
-  mounted () {
+  mounted() {
     // 思考：外面修改值时，怎么办呢？
     // this.$store.state = {}
   }
@@ -58,5 +58,11 @@ li {
 }
 a {
   color: #42b983;
+}
+p {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 30px;
+  line-height: 30px;
 }
 </style>

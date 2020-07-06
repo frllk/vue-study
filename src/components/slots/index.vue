@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="slots">
     <h2>插槽</h2>
     <!-- 插槽 -->
     <Layout>
       <!-- 具名插槽 -->
-      <template v-slot:header>开课吧全栈</template>
+      <template v-slot:header>开课吧全栈[具名插槽:header]</template>
       <!-- 匿名插槽 -->
-      <template>content...</template>
+      <template>匿名插槽: content...</template>
       <!-- 作用域插槽 -->
       <template v-slot:footer="{fc}">{{fc}}</template>
     </Layout>
@@ -24,5 +24,10 @@ export default {
 </script>
 
 <style scoped>
-
+.slots {
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 10px;
+}
 </style>
