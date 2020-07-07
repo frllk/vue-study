@@ -19,7 +19,9 @@
 <script>
 import KInput from '@/components/form/FInput.vue'
 import FFormItem from '@/components/form/FFormItem.vue'
-import FForm from '@/components/form/FForm.vue';
+import FForm from '@/components/form/FForm.vue'
+import create from '@/utils/createInstance'
+import Notice from '@/components/form/FNotice.vue'
 
 export default {
   // 跨组件通信 provide/inject
@@ -49,38 +51,24 @@ export default {
   },
   methods: {
     Login () {
+      //   // 希望表单实例可以提供一个开放的public方法====》在KForm里面需要提供一个全局校验方法
       // 希望这个表单可以提供一个全局的开放的validate方法，所以需要在FForm中实现一个全局的校验方法,让我可以直接调用
       // 传一个回调方法，等validate执行完，它调一下，把执行结果返回
       this.$refs.loginForm.validate(isValid => {
-        console.log('校验结果', isValid)
-        if (isValid) {
-          // 合法
-          console.log('request login')
-        } else {
-          // 校验失败
-          alert('校验失败')
-        }
+        // console.log('校验结果', isValid)
+        create(Notice, {
+          title: '存在喊你来搬砖',
+          message: isValid ? '请求登录' : '请求失败',
+          duration: 3000
+        }).show()
+        // if (isValid) {
+        //   // 合法
+        //   console.log('request login')
+        // } else {
+        //   // alert('校验失败')
+        // }
       })
     }
-    // login () {
-    //   // 希望表单实例可以提供一个开放的public方法====》在KForm里面需要提供一个全局校验方法
-    //   this.$refs.loginForm.validate(isValid => {
-    //     console.log('校验结果', isValid)
-    //     // 创建notice实例
-    //     create(Notice, {
-    //       title: '村长喊你来搬砖',
-    //       message: isValid ? '请求登录' : '校验失败',
-    //       duration: 2000
-    //     }).show()
-    //     // if (isValid) {
-    //     //   // 合法
-    //     //   console.log('quest login');
-    //     // } else {
-    //     //   // 不合法
-    //     //   alert('校验失败')
-    //     // }
-    //   })
-    // }
   }
 }
 </script>
