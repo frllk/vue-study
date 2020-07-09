@@ -15,7 +15,7 @@ export default class Dep {
   id: number;
   subs: Array<Watcher>;
 
-  constructor () {
+  constructor() {
     this.id = uid++
     this.subs = []
   }
@@ -30,6 +30,7 @@ export default class Dep {
 
   depend () {
     if (Dep.target) {
+      // +++ 实际执行的是watcher的addDep()
       Dep.target.addDep(this)
     }
   }

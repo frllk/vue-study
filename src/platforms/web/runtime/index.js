@@ -31,14 +31,18 @@ extend(Vue.options.directives, platformDirectives)
 extend(Vue.options.components, platformComponents)
 
 // install platform patch function
+
+// +++ 1.声明一个补丁函数 (diff过程由__patch__来做的是)
 Vue.prototype.__patch__ = inBrowser ? patch : noop
 
 // public mount method
+// +++ 2.声明$mount方法:
 Vue.prototype.$mount = function (
-  el?: string | Element,
+  el?: string | Element, // +++ el? 表示是一个可选参
   hydrating?: boolean
 ): Component {
   el = el && inBrowser ? query(el) : undefined
+  // 挂载执行
   return mountComponent(this, el, hydrating)
 }
 

@@ -42,7 +42,7 @@ export default class Watcher {
   getter: Function;
   value: any;
 
-  constructor (
+  constructor(
     vm: Component,
     expOrFn: string | Function,
     cb: Function,
@@ -128,9 +128,12 @@ export default class Watcher {
   addDep (dep: Dep) {
     const id = dep.id
     if (!this.newDepIds.has(id)) {
+      // +++ 如果没有保存过关系,保存一下
+      // +++ 先创建watcher和dep的关系
       this.newDepIds.add(id)
       this.newDeps.push(dep)
       if (!this.depIds.has(id)) {
+        // +++ 反向创建dep和watch关系
         dep.addSub(this)
       }
     }

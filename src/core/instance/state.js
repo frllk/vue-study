@@ -50,6 +50,7 @@ export function initState (vm: Component) {
   const opts = vm.$options
   if (opts.props) initProps(vm, opts.props)
   if (opts.methods) initMethods(vm, opts.methods)
+  // +++数据响应式处理
   if (opts.data) {
     initData(vm)
   } else {
@@ -79,7 +80,7 @@ function initProps (vm: Component, propsOptions: Object) {
     if (process.env.NODE_ENV !== 'production') {
       const hyphenatedKey = hyphenate(key)
       if (isReservedAttribute(hyphenatedKey) ||
-          config.isReservedAttr(hyphenatedKey)) {
+        config.isReservedAttr(hyphenatedKey)) {
         warn(
           `"${hyphenatedKey}" is a reserved attribute and cannot be used as component prop.`,
           vm
@@ -111,6 +112,9 @@ function initProps (vm: Component, propsOptions: Object) {
 
 function initData (vm: Component) {
   let data = vm.$options.data
+  // +++data类型是函数执行之
+  //    +++ 为什么平时写组件的时候,data必须写一个函数了,根组件则没有这个限制???
+  //    +++ 组件可以复用,多实例,如果都用一个对象,则会产生污染(复用\避免数据污染)
   data = vm._data = typeof data === 'function'
     ? getData(data, vm)
     : data || {}
@@ -123,6 +127,7 @@ function initData (vm: Component) {
     )
   }
   // proxy data on instance
+  // +++ 校验和代理
   const keys = Object.keys(data)
   const props = vm.$options.props
   const methods = vm.$options.methods
@@ -148,6 +153,7 @@ function initData (vm: Component) {
     }
   }
   // observe data
+  // +++ 执行递归处理
   observe(data, true /* asRootData */)
 }
 
@@ -227,7 +233,7 @@ export function defineComputed (
     sharedPropertyDefinition.set = userDef.set || noop
   }
   if (process.env.NODE_ENV !== 'production' &&
-      sharedPropertyDefinition.set === noop) {
+    sharedPropertyDefinition.set === noop) {
     sharedPropertyDefinition.set = function () {
       warn(
         `Computed property "${key}" was assigned to but it has no setter.`,
@@ -253,7 +259,7 @@ function createComputedGetter (key) {
   }
 }
 
-function createGetterInvoker(fn) {
+function createGetterInvoker (fn) {
   return function computedGetter () {
     return fn.call(this, this)
   }
