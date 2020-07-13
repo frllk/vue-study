@@ -2,29 +2,65 @@
 <html>
 
 <head>
-    <title>Vue源码剖析</title>
-    <script src="../../dist/vue.js"></script>
+  <title>Vue源码剖析</title>
+  <script src="../../dist/vue.js"></script>
 </head>
 
 <body>
-    <div id="demo">
-        <h1>虚拟DOM</h1>
-        <div>
-            <p v-for="a in arr" :key="a">{{a}}</p>
-        </div>
+  <div id="demo">
+    <h1>虚拟DOM</h1>
+    <div>
+      <p v-for="a in arr" :key="a">{{a}}</p>
     </div>
-    <script>
-        // 创建实例
-        const app = new Vue({
-            el: '#demo',
-            data: { arr: [1,2,3] },
-            mounted() {
-                setTimeout(() => {
-                    this.arr.push(4)
-                }, 1000);
-            }
-        });
-    </script>
+  </div>
+  <script>
+    // 创建实例
+    const app = new Vue({
+      el: '#demo',
+      // data: { arr: [1, 2, 3] },
+      data: { arr: ['a', 'b', 'c', 'd'] },
+
+      // 使用key
+      // a b c d 
+      // a b e c d 
+
+      // b c d 
+      // b e c d 
+
+      // c d 
+      // e c d 
+
+      // c
+      // e c
+
+      // []
+      // e // 创建一次，插入
+
+
+      // 不使用key undefined === undefined
+      // a b c d 
+      // a b e c d 
+
+      // b c d 
+      // b e c d 
+
+      // c d 
+      // e c d  // update c e
+
+      // d 
+      // c d  // update c d
+
+      // [] 
+      // d  // create d  insert d 多做了两次更新操作
+      mounted() {
+        setTimeout(() => {
+          // this.arr.push(4)
+          // this.arr.push(4)
+          this.arr.splice(2, 0, 'e')
+        }, 1000);
+      }
+    });
+  </script>
 </body>
 
 </html>

@@ -14,7 +14,7 @@ import {
   getTagNamespace,
   isUnknownElement
 } from 'web/util/index'
-
+// 特殊的扩展 => patch部分
 import { patch } from './patch'
 import platformDirectives from './directives/index'
 import platformComponents from './components/index'

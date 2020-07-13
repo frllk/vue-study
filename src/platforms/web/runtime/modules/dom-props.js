@@ -5,6 +5,8 @@ import { isSVG } from 'web/util/index'
 
 let svgContainer
 
+// dom属性操作
+
 function updateDOMProps (oldVnode: VNodeWithData, vnode: VNodeWithData) {
   if (isUndef(oldVnode.data.domProps) && isUndef(vnode.data.domProps)) {
     return
@@ -70,7 +72,7 @@ function updateDOMProps (oldVnode: VNodeWithData, vnode: VNodeWithData) {
       // e.g. `value` on <progress> w/ non-finite value
       try {
         elm[key] = cur
-      } catch (e) {}
+      } catch (e) { }
     }
   }
 }
@@ -92,7 +94,7 @@ function isNotInFocusAndDirty (elm: acceptValueElm, checkVal: string): boolean {
   let notInFocus = true
   // #6157
   // work around IE bug when accessing document.activeElement in an iframe
-  try { notInFocus = document.activeElement !== elm } catch (e) {}
+  try { notInFocus = document.activeElement !== elm } catch (e) { }
   return notInFocus && elm.value !== checkVal
 }
 
