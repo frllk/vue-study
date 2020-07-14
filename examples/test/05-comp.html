@@ -2,24 +2,39 @@
 <html>
 
 <head>
-    <title>Vue源码剖析</title>
-    <script src="../../dist/vue.js"></script>
+  <title>Vue源码剖析</title>
+  <script src="../../dist/vue.js"></script>
 </head>
 
 <body>
-    <div id="demo">
-        <h1>Vue组件化机制</h1>
-        <comp></comp>
-    </div>
-    <script>
-        Vue.component('comp', {
-            template: '<div>I am comp</div>'
-        })
-        // 创建实例
-        const app = new Vue({
-            el: '#demo'
-        });
-    </script>
+  <div id="demo">
+    <h1>Vue组件化机制</h1>
+    <comp></comp>
+  </div>
+  <script>
+    Vue.component('comp', {
+      template: '<div>I am comp</div>'
+    })
+    // 创建实例
+    // vue根实例
+    // App根组件
+    // comp组件
+    const app = new Vue({
+      el: '#demo'
+    });
+
+    console.log(app.$options.render);
+
+    // 父组件和子组件之间生命周期的关系？
+    // 生命周期，带子组件
+    // parent  create
+    //    parent beforeMount
+    //        child create
+    //        child beforeMount
+    //        child mounted
+    //    parent mounted
+    // 创建：自上而下  挂载：自下而上
+  </script>
 </body>
 
 </html>

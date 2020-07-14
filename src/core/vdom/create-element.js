@@ -92,10 +92,16 @@ export function _createElement (
   } else if (normalizationType === SIMPLE_NORMALIZE) {
     children = simpleNormalizeChildren(children)
   }
+
+
+  // 根据传入tag类型做相应处理
   let vnode, ns
   if (typeof tag === 'string') {
     let Ctor
     ns = (context.$vnode && context.$vnode.ns) || config.getTagNamespace(tag)
+
+
+    // 判断是否是原生标签：div p......
     if (config.isReservedTag(tag)) {
       // platform built-in elements
       if (process.env.NODE_ENV !== 'production' && isDef(data) && isDef(data.nativeOn)) {
@@ -105,11 +111,14 @@ export function _createElement (
         )
       }
       vnode = new VNode(
+        // 解析平台特有的标签（看是否是平台特有的，是否在原生标签中） => 创建一个虚拟dom vnode与之相对应
         config.parsePlatformTagName(tag), data, children,
         undefined, undefined, context
       )
     } else if ((!data || !data.pre) && isDef(Ctor = resolveAsset(context.$options, 'components', tag))) {
+      // resolveAsset：从当前组件实例选项上components配置项中找tag所对应的构造函数
       // component
+      // 自定义组件=>前面条件获取components选项中对应的组件构造函数
       vnode = createComponent(Ctor, data, context, children, tag)
     } else {
       // unknown or unlisted namespaced elements

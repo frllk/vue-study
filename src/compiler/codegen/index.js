@@ -21,7 +21,7 @@ export class CodegenState {
   staticRenderFns: Array<string>;
   pre: boolean;
 
-  constructor (options: CompilerOptions) {
+  constructor(options: CompilerOptions) {
     this.options = options
     this.warn = options.warn || baseWarn
     this.transforms = pluckModuleFunction(options.modules, 'transformCode')
@@ -40,6 +40,7 @@ export type CodegenResult = {
   staticRenderFns: Array<string>
 };
 
+// ast => code string
 export function generate (
   ast: ASTElement | void,
   options: CompilerOptions
@@ -83,9 +84,9 @@ export function genElement (el: ASTElement, state: CodegenState): string {
       const children = el.inlineTemplate ? null : genChildren(el, state, true)
       code = `_c('${el.tag}'${
         data ? `,${data}` : '' // data
-      }${
+        }${
         children ? `,${children}` : '' // children
-      })`
+        })`
     }
     // module transforms
     for (let i = 0; i < state.transforms.length; i++) {
@@ -109,9 +110,9 @@ function genStatic (el: ASTElement, state: CodegenState): string {
   state.pre = originalPreState
   return `_m(${
     state.staticRenderFns.length - 1
-  }${
+    }${
     el.staticInFor ? ',true' : ''
-  })`
+    })`
 }
 
 // v-once
@@ -166,9 +167,9 @@ function genIfConditions (
   if (condition.exp) {
     return `(${condition.exp})?${
       genTernaryExp(condition.block)
-    }:${
+      }:${
       genIfConditions(conditions, state, altGen, altEmpty)
-    }`
+      }`
   } else {
     return `${genTernaryExp(condition.block)}`
   }
@@ -212,7 +213,7 @@ export function genFor (
   el.forProcessed = true // avoid recursion
   return `${altHelper || '_l'}((${exp}),` +
     `function(${alias}${iterator1}${iterator2}){` +
-      `return ${(altGen || genElement)(el, state)}` +
+    `return ${(altGen || genElement)(el, state)}` +
     '})'
 }
 
@@ -275,11 +276,11 @@ export function genData (el: ASTElement, state: CodegenState): string {
   if (el.model) {
     data += `model:{value:${
       el.model.value
-    },callback:${
+      },callback:${
       el.model.callback
-    },expression:${
+      },expression:${
       el.model.expression
-    }},`
+      }},`
   }
   // inline-template
   if (el.inlineTemplate) {
@@ -325,11 +326,11 @@ function genDirectives (el: ASTElement, state: CodegenState): string | void {
       hasRuntime = true
       res += `{name:"${dir.name}",rawName:"${dir.rawName}"${
         dir.value ? `,value:(${dir.value}),expression:${JSON.stringify(dir.value)}` : ''
-      }${
+        }${
         dir.arg ? `,arg:${dir.isDynamicArg ? dir.arg : `"${dir.arg}"`}` : ''
-      }${
+        }${
         dir.modifiers ? `,modifiers:${JSON.stringify(dir.modifiers)}` : ''
-      }},`
+        }},`
     }
   }
   if (hasRuntime) {
@@ -351,9 +352,9 @@ function genInlineTemplate (el: ASTElement, state: CodegenState): ?string {
     const inlineRenderFns = generate(ast, state.options)
     return `inlineTemplate:{render:function(){${
       inlineRenderFns.render
-    }},staticRenderFns:[${
+      }},staticRenderFns:[${
       inlineRenderFns.staticRenderFns.map(code => `function(){${code}}`).join(',')
-    }]}`
+      }]}`
   }
 }
 
@@ -410,15 +411,15 @@ function genScopedSlots (
 
   return `scopedSlots:_u([${generatedSlots}]${
     needsForceUpdate ? `,null,true` : ``
-  }${
+    }${
     !needsForceUpdate && needsKey ? `,null,false,${hash(generatedSlots)}` : ``
-  })`
+    })`
 }
 
-function hash(str) {
+function hash (str) {
   let hash = 5381
   let i = str.length
-  while(i) {
+  while (i) {
     hash = (hash * 33) ^ str.charCodeAt(--i)
   }
   return hash >>> 0
@@ -487,7 +488,7 @@ export function genChildren (
     const gen = altGenNode || genNode
     return `[${children.map(c => gen(c, state)).join(',')}]${
       normalizationType ? `,${normalizationType}` : ''
-    }`
+      }`
   }
 }
 
@@ -506,12 +507,12 @@ function getNormalizationType (
       continue
     }
     if (needsNormalization(el) ||
-        (el.ifConditions && el.ifConditions.some(c => needsNormalization(c.block)))) {
+      (el.ifConditions && el.ifConditions.some(c => needsNormalization(c.block)))) {
       res = 2
       break
     }
     if (maybeComponent(el) ||
-        (el.ifConditions && el.ifConditions.some(c => maybeComponent(c.block)))) {
+      (el.ifConditions && el.ifConditions.some(c => maybeComponent(c.block)))) {
       res = 1
     }
   }
@@ -536,7 +537,7 @@ export function genText (text: ASTText | ASTExpression): string {
   return `_v(${text.type === 2
     ? text.expression // no need for () because already wrapped in _s()
     : transformSpecialNewlines(JSON.stringify(text.text))
-  })`
+    })`
 }
 
 export function genComment (comment: ASTText): string {
@@ -549,11 +550,11 @@ function genSlot (el: ASTElement, state: CodegenState): string {
   let res = `_t(${slotName}${children ? `,${children}` : ''}`
   const attrs = el.attrs || el.dynamicAttrs
     ? genProps((el.attrs || []).concat(el.dynamicAttrs || []).map(attr => ({
-        // slot props are camelized
-        name: camelize(attr.name),
-        value: attr.value,
-        dynamic: attr.dynamic
-      })))
+      // slot props are camelized
+      name: camelize(attr.name),
+      value: attr.value,
+      dynamic: attr.dynamic
+    })))
     : null
   const bind = el.attrsMap['v-bind']
   if ((attrs || bind) && !children) {
@@ -577,7 +578,7 @@ function genComponent (
   const children = el.inlineTemplate ? null : genChildren(el, state, true)
   return `_c(${componentName},${genData(el, state)}${
     children ? `,${children}` : ''
-  })`
+    })`
 }
 
 function genProps (props: Array<ASTAttr>): string {

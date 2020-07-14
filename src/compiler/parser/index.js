@@ -76,6 +76,8 @@ export function createASTElement (
 /**
  * Convert HTML string to AST.
  */
+
+// 三个parser:HTML / text / filter
 export function parse (
   template: string,
   options: CompilerOptions
@@ -88,12 +90,16 @@ export function parse (
   const isReservedTag = options.isReservedTag || no
   maybeComponent = (el: ASTElement) => !!el.component || !isReservedTag(el.tag)
 
+  // 选项合并
   transforms = pluckModuleFunction(options.modules, 'transformNode')
   preTransforms = pluckModuleFunction(options.modules, 'preTransformNode')
   postTransforms = pluckModuleFunction(options.modules, 'postTransformNode')
 
+  // {{}}
   delimiters = options.delimiters
 
+  // 解析过程
+  // <div><span></span></div>
   const stack = []
   const preserveWhitespace = options.preserveWhitespace !== false
   const whitespaceOption = options.whitespace
@@ -144,7 +150,7 @@ export function parse (
           // keep it in the children list so that v-else(-if) conditions can
           // find it as the prev node.
           const name = element.slotTarget || '"default"'
-          ;(currentParent.scopedSlots || (currentParent.scopedSlots = {}))[name] = element
+            ; (currentParent.scopedSlots || (currentParent.scopedSlots = {}))[name] = element
         }
         currentParent.children.push(element)
         element.parent = currentParent
@@ -201,6 +207,7 @@ export function parse (
     }
   }
 
+  // 核心解析算法
   parseHTML(template, {
     warn,
     expectHTML: options.expectHTML,
@@ -210,6 +217,8 @@ export function parse (
     shouldDecodeNewlinesForHref: options.shouldDecodeNewlinesForHref,
     shouldKeepComment: options.comments,
     outputSourceRange: options.outputSourceRange,
+
+    // 开始标签
     start (tag, attrs, unary, start, end) {
       // check namespace.
       // inherit parent ns if there is one
@@ -221,6 +230,7 @@ export function parse (
         attrs = guardIESVGBug(attrs)
       }
 
+      // 创建一个ast元素
       let element: ASTElement = createASTElement(tag, attrs, currentParent)
       if (ns) {
         element.ns = ns
@@ -277,9 +287,10 @@ export function parse (
         processRawAttrs(element)
       } else if (!element.processed) {
         // structural directives
-        processFor(element)
-        processIf(element)
-        processOnce(element)
+        // 结构型指令处理
+        processFor(element) // v-for
+        processIf(element) // v-if
+        processOnce(element) // v-once
       }
 
       if (!root) {
@@ -289,7 +300,9 @@ export function parse (
         }
       }
 
+      // 是否是自闭和标签
       if (!unary) {
+        // 不是自闭和，直接入栈
         currentParent = element
         stack.push(element)
       } else {
@@ -297,6 +310,7 @@ export function parse (
       }
     },
 
+    // 标签结束，pop，出栈
     end (tag, start, end) {
       const element = stack[stack.length - 1]
       // pop stack
@@ -884,8 +898,8 @@ function processAttrs (el) {
       // #6887 firefox doesn't update muted state if set via attribute
       // even immediately after element creation
       if (!el.component &&
-          name === 'muted' &&
-          platformMustUseProp(el.tag, el.attrsMap.type, name)) {
+        name === 'muted' &&
+        platformMustUseProp(el.tag, el.attrsMap.type, name)) {
         addProp(el, name, 'true', list[i])
       }
     }
