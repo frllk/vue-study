@@ -2,20 +2,20 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld @add-feature="addFeature" msg="Welcome to Your Vue.js + TypeScript App" />
-    <!-- <TsxVomp msg="Welcome to Your Vue.js + TypeScript App" /> -->
+    <!-- <TsxComp msg="Welcome to Your Vue.js + TypeScript App" /> -->
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import HelloWorld from './components/HelloWorld.vue'
-import TsxVomp from './components/TsxVomp'
+import TsxComp from './components/TsxComp'
 import { FeatureSelect } from './types'
 
 @Component({
   components: {
     HelloWorld,
-    TsxVomp
+    TsxComp
   }
 })
 export default class App extends Vue {
