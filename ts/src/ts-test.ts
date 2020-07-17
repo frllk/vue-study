@@ -143,3 +143,59 @@ function getResult<T>(data: T): Result<T> {
   return { ok: 1, data };
 }
 // getResult<string>()
+
+/**
+ * **************************装饰器：加工厂函数***************************
+ */
+// 类装饰器========================
+function log(fn) {
+  // 装饰器工厂：返回一个装饰器
+  return function (target: any) {
+    // target就是Foo
+    console.log(typeof target); // function
+    // 加个log方法
+    target.prototype.log = function () {
+      // console.log(this.bar)
+      fn(this.bar)
+    }
+  }
+}
+
+// 方法装饰器========================// 区别是参数数量和类型
+// target类实例，name：方法名，最后的是描述符
+function rec(target: any, name: string, descriptor: any) {
+  // 这里通过修改descriptor.value扩展了bar方法
+  const baz = descriptor.value;
+  descriptor.value = function (val: string) {
+    // 扩展的功能
+    console.log('run method', this.bar);
+    // 本来的功能
+    baz.call(this, val);
+    console.log('run method', this.bar);
+  }
+}
+
+// 属性装饰器========================
+function mua(param: string): any {
+  return function (target: any, name: string) {
+    target[name] = param
+  }
+}
+
+@log(window.alert)
+class Foo {
+  bar = 'bar' // Type string trivially inferred from a string literal, remove type annotation
+
+  @rec
+  setBar(v: string) {
+    this.bar = v
+  }
+
+  @mua('foo-ns-message')
+  ns!: string;
+}
+const f1 = new Foo()
+// @ts-ignore
+f1.log()
+f1.setBar('barrrrr')
+console.log(f1.ns)

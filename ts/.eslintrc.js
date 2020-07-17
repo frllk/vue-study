@@ -43,6 +43,7 @@ module.exports = {
       named: 'never'
       // asyncArrow: 'always'
     }],
-    'no-useless-constructor': 'off'
+    'no-useless-constructor': 'off',
+    '@typescript-eslint/ban-ts-ignore': 'off'
   }
 }
