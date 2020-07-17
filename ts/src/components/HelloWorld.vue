@@ -14,7 +14,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { FeatureSelect } from '../types'
-import axios from 'axios'
 // class-style
 @Component
 export default class HelloWorld extends Vue {
@@ -46,7 +45,7 @@ export default class HelloWorld extends Vue {
 
   mounted() {
     // 请求数据
-    axios.get<FeatureSelect[]>('/api/list').then(resp => {
+    this.$http.get<FeatureSelect[]>('/api/list').then(resp => {
       this.features = resp.data
     })
   }
