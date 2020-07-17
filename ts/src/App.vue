@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <HelloWorld @add-feature="addFeature" msg="Welcome to Your Vue.js + TypeScript App" />
     <!-- <TsxVomp msg="Welcome to Your Vue.js + TypeScript App" /> -->
   </div>
 </template>
@@ -10,6 +10,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import HelloWorld from './components/HelloWorld.vue'
 import TsxVomp from './components/TsxVomp'
+import { FeatureSelect } from './types'
 
 @Component({
   components: {
@@ -17,7 +18,11 @@ import TsxVomp from './components/TsxVomp'
     TsxVomp
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  addFeature(feature: FeatureSelect) {
+    console.log('添加了一个新特性', feature.name)
+  }
+}
 </script>
 
 <style>

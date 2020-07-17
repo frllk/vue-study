@@ -12,16 +12,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
 import { FeatureSelect } from '../types'
 // class-style
 @Component
 export default class HelloWorld extends Vue {
-  @Prop() private msg!: string
+  // 加括号 => 说明Prop是一个装饰器工厂，返回的才是装饰器，参数一般是配置对象
+  // 以Prop为例，就是给Vue传递props选项
+  @Prop({ type: String, required: true }) // 写给vue的
+  private msg!: string // 这行约束是写给ts编译器的
 
   // 属性将成为data中数据
   features: FeatureSelect[] = []
 
+  // 默认事件名称为方法名，返回值是参数
+  @Emit()
   addFeature(e: KeyboardEvent) {
     // ! 非空断言
     // 类型断言
@@ -33,6 +38,10 @@ export default class HelloWorld extends Vue {
     }
     this.features.unshift(feature)
     inp.value = ''
+
+    // 告诉老爹添加了一个feature
+    // 相当于this.$emit('add-feature', feature)
+    return feature
   }
 
   // 生命周期
