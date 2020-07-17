@@ -14,6 +14,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { FeatureSelect } from '../types'
+import axios from 'axios'
 // class-style
 @Component
 export default class HelloWorld extends Vue {
@@ -37,10 +38,17 @@ export default class HelloWorld extends Vue {
 
   // 生命周期
   created() {
-    this.features = [
-      { id: 1, name: '类型注解', selected: false },
-      { id: 2, name: '编译类型语言', selected: true }
-    ]
+    // this.features = [
+    //   { id: 1, name: '类型注解', selected: false },
+    //   { id: 2, name: '编译类型语言', selected: true }
+    // ]
+  }
+
+  mounted() {
+    // 请求数据
+    axios.get<FeatureSelect[]>('/api/list').then(resp => {
+      this.features = resp.data
+    })
   }
 
   // 存储器作为计算属性, 并且是响应式的

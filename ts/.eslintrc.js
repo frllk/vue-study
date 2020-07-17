@@ -42,6 +42,7 @@ module.exports = {
       // anonymous: 'always', // https://eslint.org/docs/rules/space-before-function-paren#require-or-disallow-a-space-before-function-parenthesis-space-before-function-paren
       named: 'never',
       // asyncArrow: 'always'
-    }]
+    }],
+    "no-useless-constructor": "off"
   }
 }
