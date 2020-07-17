@@ -6,6 +6,7 @@
     <div><input type="text" @keyup.enter="addFeature"></div>
     <ul>
       <li v-for="feature in features" :class="{selected:feature.selected}" :key="feature.id">{{feature.name}}</li>
+      <li>total:{{total}}</li>
     </ul>
   </div>
 </template>
@@ -40,6 +41,11 @@ export default class HelloWorld extends Vue {
       { id: 1, name: '类型注解', selected: false },
       { id: 2, name: '编译类型语言', selected: true }
     ]
+  }
+
+  // 存储器作为计算属性, 并且是响应式的
+  get total() {
+    return this.features.length
   }
 }
 
