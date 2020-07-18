@@ -4,10 +4,16 @@ import store from './index'
 @Module({ dynamic: true, store: store, name: 'counter', namespaced: true })
 class CounterModule extends VuexModule {
   count = 1
+  message = 'hello'
   @Mutation
   add() {
     // 通过this直接访问count
     this.count++
+  }
+
+  @Mutation
+  updateMsg(data: string) {
+    this.message = data
   }
 
   // 定义getters

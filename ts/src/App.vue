@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld @add-feature="addFeature" msg="Welcome to Your Vue.js + TypeScript App" />
+    <!-- <HelloWorld @add-feature="addFeature" msg="Welcome to Your Vue.js + TypeScript App" /> -->
     <!-- <TsxComp msg="Welcome to Your Vue.js + TypeScript App" /> -->
-    <hr>
-    <p @click="add">{{$store.state.counter.count}}</p>
-    <p @click="asyncAdd">{{count}}</p>
+    <!-- <p @click="add">{{$store.state.counter.count}}</p>
+    <p @click="asyncAdd">{{count}}</p> -->
+    <Parent msg="Welcome to Your Vue.js + TypeScript App" />
   </div>
 </template>
 
@@ -13,13 +13,15 @@
 import { Component, Vue } from 'vue-property-decorator'
 import HelloWorld from './components/HelloWorld.vue'
 import TsxComp from './components/TsxComp'
+import Parent from './components/case/Parent'
 import { FeatureSelect } from './types'
 import CounterModule from './store/counter'
 
 @Component({
   components: {
     HelloWorld,
-    TsxComp
+    TsxComp,
+    Parent
   }
 })
 export default class App extends Vue {
