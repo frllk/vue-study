@@ -14,7 +14,11 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
 import { FeatureSelect } from '../types'
+
+// export default Vue.extend(options)
 // class-style
+// 猜测：希望得到一个组件构造函数, 解析calss内部所有属性和方法，转换成上面的options
+//最后，执行Ctor = Vue.extend(options) 并返回
 @Component
 export default class HelloWorld extends Vue {
   // 加括号 => 说明Prop是一个装饰器工厂，返回的才是装饰器，参数一般是配置对象
