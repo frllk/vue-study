@@ -57,7 +57,7 @@ export default {
       this.$refs.loginForm.validate(isValid => {
         // console.log('校验结果', isValid)
         create(Notice, {
-          title: '存在喊你来搬砖',
+          title: '村长喊你来搬砖',
           message: isValid ? '请求登录' : '请求失败',
           duration: 3000
         }).show()
